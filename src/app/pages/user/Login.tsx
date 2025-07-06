@@ -4,10 +4,10 @@ import { useState, useTransition } from "react";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { finishPasskeyLogin, startPasskeyLogin } from "./functions";
 import { Button } from "@/app/components/ui/button";
-import { AuthLayout } from "@/app/layouts/AuthLayout";
 import { Alert, AlertTitle } from "@/app/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { link } from "@/app/shared/links";
+import AuthLayout from "@/app/layouts/AuthLayout";
 
 export function Login() {
   const [username, setUsername] = useState("");

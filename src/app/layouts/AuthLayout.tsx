@@ -1,4 +1,8 @@
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="bg-bg min-h-screen min-w-screen p-12">
       <div className="grid grid-cols-2 min-h-[calc(100vh-96px)] rounded-xl border-2 border-[#D6D5C5]">
@@ -23,6 +27,4 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
     </div>
   );
-};
-
-export { AuthLayout };
+}
