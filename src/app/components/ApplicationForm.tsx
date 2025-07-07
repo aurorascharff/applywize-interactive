@@ -23,6 +23,7 @@ import { Plus } from "lucide-react";
 import ContactForm from "./ContactForm";
 import { useState } from "react";
 import ContactCard from "./ContactCard";
+import { link } from "../shared/links";
 
 export default function ApplicationForm({
   statuses,
@@ -37,7 +38,7 @@ export default function ApplicationForm({
     formData.append("contacts", JSON.stringify(contacts));
     const result = await createApplication(formData);
     if (result.success) {
-      window.location.href = `/applications`;
+      window.location.href = link(`/applications`);
     } else {
       console.error(result.error);
     }

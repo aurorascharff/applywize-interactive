@@ -1,6 +1,6 @@
 import ApplicationsTable from "@/app/components/ApplicationsTable";
+import Link from "@/app/components/Link";
 import { Button } from "@/app/components/ui/button";
-import InteriorLayout from "@/app/layouts/InteriorLayout";
 import { link } from "@/app/shared/links";
 import { db, Prisma } from "@/db";
 import { Archive, Plus } from "lucide-react";
@@ -17,6 +17,8 @@ export type ApplicationWithRelations = Prisma.ApplicationGetPayload<{
 }>;
 
 export default async function List({ request }: { request: Request }) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const url = new URL(request.url);
   const status = url.searchParams.get("status");
 
@@ -40,10 +42,10 @@ export default async function List({ request }: { request: Request }) {
         <h1 className="page-title">All Applications</h1>
         <div>
           <Button asChild>
-            <a href={link("/applications/new")}>
+            <Link href={link("/applications/new")}>
               <Plus />
               New Application
-            </a>
+            </Link>
           </Button>
         </div>
       </div>
@@ -59,22 +61,22 @@ export default async function List({ request }: { request: Request }) {
       <div className="flex justify-between items-center mb-10">
         <Button asChild variant="secondary">
           {status === "archived" ? (
-            <a href={`${link("/applications")}`}>
+            <Link href={`${link("/applications")}`}>
               <Archive />
               Active
-            </a>
+            </Link>
           ) : (
-            <a href={`${link("/applications")}?status=archived`}>
+            <Link href={`${link("/applications")}?status=archived`}>
               <Archive />
               Archive
-            </a>
+            </Link>
           )}
         </Button>
         <Button asChild>
-          <a href={link("/applications/new")}>
+          <Link href={link("/applications/new")}>
             <Plus />
             New Application
-          </a>
+          </Link>
         </Button>
       </div>
     </div>

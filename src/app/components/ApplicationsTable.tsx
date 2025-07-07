@@ -13,6 +13,7 @@ import { VariantProps } from "class-variance-authority";
 import { link } from "../shared/links";
 import { ApplicationWithRelations } from "../pages/applications/List";
 import { Eye, View, ViewIcon } from "lucide-react";
+import Link from "./Link";
 
 export default function ApplicationsTable({
   applications,
@@ -72,9 +73,9 @@ export default function ApplicationsTable({
               {application.salaryMin}-{application.salaryMax}
             </TableCell>
             <TableCell>
-              <a href={link("/applications/:id", { id: application.id })}>
+              <Link href={link("/applications/:id", { id: application.id })}>
                 <Eye />
-              </a>
+              </Link>
             </TableCell>
           </TableRow>
         ))}

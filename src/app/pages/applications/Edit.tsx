@@ -11,8 +11,11 @@ import { db } from "@/db";
 import { RequestInfo } from "rwsdk/worker";
 import { link } from "@/app/shared/links";
 import EditApplicationForm from "@/app/components/EditApplicationForm";
+import Link from "@/app/components/Link";
 
-export default async function New({ params, ctx }: RequestInfo) {
+export default async function New({ params }: RequestInfo) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const application = await db.application.findUnique({
     where: {
       id: params.id,
@@ -38,10 +41,14 @@ export default async function New({ params, ctx }: RequestInfo) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink
-                href={link("/applications/:id", { id: application?.id ?? "" })}
-              >
-                {application?.jobTitle} at {application?.company?.name}
+              <BreadcrumbLink asChild>
+                <Link
+                  href={link("/applications/:id", {
+                    id: application?.id ?? "",
+                  })}
+                >
+                  {application?.jobTitle} at {application?.company?.name}
+                </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

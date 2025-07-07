@@ -4,6 +4,8 @@ import { Contact, db } from "@/db";
 import { requestInfo } from "rwsdk/worker";
 
 export const createApplication = async (formData: FormData) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   try {
     const { ctx } = requestInfo;
     if (!ctx.user) {
@@ -51,6 +53,8 @@ export const createApplication = async (formData: FormData) => {
 };
 
 export const createContact = async (formData: FormData) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   try {
     const { ctx } = requestInfo;
 
@@ -89,6 +93,8 @@ export const createContact = async (formData: FormData) => {
 };
 
 export const deleteContact = async (contactId: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   try {
     await db.contact.delete({
       where: {
@@ -103,6 +109,8 @@ export const deleteContact = async (contactId: string) => {
 };
 
 export const deleteApplication = async (applicationId: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   try {
     await db.application.delete({
       where: {
@@ -117,6 +125,8 @@ export const deleteApplication = async (applicationId: string) => {
 };
 
 export const updateApplication = async (formData: FormData) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   try {
     await db.application.update({
       where: {

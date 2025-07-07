@@ -14,6 +14,7 @@ import { Check, Trash } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { deleteApplication } from "@/app/pages/applications/functions";
+import { link } from "../shared/links";
 
 export default function DeleteApplicationButton({
   applicationId,
@@ -26,7 +27,7 @@ export default function DeleteApplicationButton({
     const result = await deleteApplication(applicationId);
     if (result.success) {
       toast.success("Application deleted successfully");
-      window.location.href = "/applications";
+      window.location.href = link(`/applications`);
     } else {
       console.error(result.error);
       toast.error("Failed to delete application");

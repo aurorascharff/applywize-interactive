@@ -25,6 +25,7 @@ import { useState } from "react";
 import ContactCard from "./ContactCard";
 import { ApplicationWithRelations } from "../pages/applications/List";
 import { link } from "../shared/links";
+import Link from "./Link";
 
 export default function EditApplicationForm({
   statuses,
@@ -38,7 +39,7 @@ export default function EditApplicationForm({
   const handleSubmit = async (formData: FormData) => {
     const result = await updateApplication(formData);
     if (result.success) {
-      window.location.href = `/applications`;
+      window.location.href = link(`/applications`);
     } else {
       console.error(result.error);
     }
@@ -124,13 +125,13 @@ export default function EditApplicationForm({
               />
               <Button role="submit">Update</Button>
               <Button variant="secondary" asChild>
-                <a
+                <Link
                   href={link("/applications/:id", {
                     id: application?.id ?? "",
                   })}
                 >
                   Cancel
-                </a>
+                </Link>
               </Button>
             </div>
           </div>

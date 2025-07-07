@@ -10,8 +10,12 @@ import {
 import ApplicationForm from "@/app/components/ApplicationForm";
 import { db } from "@/db";
 import { RequestInfo } from "rwsdk/worker";
+import { link } from "@/app/shared/links";
+import Link from "@/app/components/Link";
 
 export default async function New({ ctx }: RequestInfo) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const statuses = await db.applicationStatus.findMany();
   const contacts = await db.contact.findMany({
     where: {
@@ -26,7 +30,9 @@ export default async function New({ ctx }: RequestInfo) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/applications">Applications</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link href={link("/applications")}>Applications</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

@@ -15,8 +15,10 @@ import { link } from "@/app/shared/links";
 import { DollarSign, Eye, Pencil } from "lucide-react";
 import DeleteApplicationButton from "@/app/components/DeleteApplicationButton";
 import ContactCard from "@/app/components/ContactCard";
+import Link from "@/app/components/Link";
 
 const Details = async ({ params }: RequestInfo) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const application = await db.application.findUnique({
     where: {
       id: params.id,
@@ -37,7 +39,9 @@ const Details = async ({ params }: RequestInfo) => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/applications">Dashboard</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link href={link("/applications")}>Dashboard</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -70,13 +74,13 @@ const Details = async ({ params }: RequestInfo) => {
           </div>
           <div>
             <Button>
-              <a
+              <Link
                 href={application?.postingUrl as string}
                 target="_blank"
                 className="flex items-center gap-2"
               >
                 View Application <Eye />
-              </a>
+              </Link>
             </Button>
           </div>
         </header>
@@ -85,13 +89,13 @@ const Details = async ({ params }: RequestInfo) => {
             <div className="mb-12">{application?.jobDescription}</div>
             <div className="flex items-center gap-5">
               <Button variant="secondary" asChild>
-                <a
+                <Link
                   href={link("/applications/:id/edit", {
                     id: application?.id || "",
                   })}
                 >
                   <Pencil /> Edit
-                </a>
+                </Link>
               </Button>
               <DeleteApplicationButton applicationId={application?.id || ""} />
             </div>
