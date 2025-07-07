@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  TableCaption,
   TableHeader,
   TableRow,
   TableHead,
@@ -8,10 +6,28 @@ import {
   TableCell,
   Table,
 } from "./ui/table";
-import { Badge } from "./ui/badge";
+import { Badge, badgeVariants } from "./ui/badge";
 import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Prisma } from "@generated/prisma";
+import { VariantProps } from "class-variance-authority";
+import { link } from "../shared/links";
 
-export default function ApplicationsTable() {
+export type ApplicationWithRelations = Prisma.ApplicationGetPayload<{
+  include: {
+    status: true;
+    company: {
+      include: {
+        contacts: true;
+      };
+    };
+  };
+}>;
+
+export default function ApplicationsTable({
+  applications,
+}: {
+  applications: ApplicationWithRelations[];
+}) {
   return (
     <Table>
       <TableHeader>
@@ -26,26 +42,51 @@ export default function ApplicationsTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>
+        {applications.map((application) => (
+          <TableRow key={application.id}>
             <TableCell>
-              <Badge variant="new">New</Badge>
+              <TableCell>
+                <Badge
+                  variant={
+                    application.status.status.toLowerCase() as VariantProps<
+                      typeof badgeVariants
+                    >["variant"]
+                  }
+                >
+                  {application.status.status}
+                </Badge>
+              </TableCell>
             </TableCell>
-          </TableCell>
-          <TableCell>April 15, 2025</TableCell>
-          <TableCell>Software Engineer</TableCell>
-          <TableCell>RedwoodJS</TableCell>
-          <TableCell className="flex items-center gap-2">
-            <Avatar>
-              <AvatarFallback>J</AvatarFallback>
-            </Avatar>
-            John Doe
-          </TableCell>
-          <TableCell>$150,000-$250,000</TableCell>
-          <TableCell>
-            <a href="#">View</a>
-          </TableCell>
-        </TableRow>
+            <TableCell>
+              {application.dateApplied?.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </TableCell>
+            <TableCell>{application.jobTitle}</TableCell>
+            <TableCell>{application.company.name}</TableCell>
+            <TableCell className="flex items-center gap-2">
+              <Avatar>
+                <AvatarFallback>
+                  {application.company.contacts[0].firstName
+                    .charAt(0)
+                    .toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              {application.company.contacts[0].firstName}
+              {application.company.contacts[0].lastName}
+            </TableCell>
+            <TableCell>
+              {application.salaryMin}-{application.salaryMax}
+            </TableCell>
+            <TableCell>
+              <a href={link("/applications/:id", { id: application.id })}>
+                View
+              </a>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

@@ -4,7 +4,16 @@ import InteriorLayout from "@/app/layouts/InteriorLayout";
 import { db } from "@/db";
 
 export default async function List() {
-  const applications = await db.application.findMany();
+  const applications = await db.application.findMany({
+    include: {
+      company: {
+        include: {
+          contacts: true,
+        },
+      },
+      status: true,
+    },
+  });
 
   return (
     <div>
@@ -18,7 +27,7 @@ export default async function List() {
               </Button>
             </div>
           </div>
-          <ApplicationsTable />
+          <ApplicationsTable applications={applications} />
           <pre>{JSON.stringify(applications, null, 2)}</pre>
         </>
       </InteriorLayout>

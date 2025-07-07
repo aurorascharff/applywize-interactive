@@ -62,6 +62,9 @@ export default defineApp([
       route("/privacy", () => <h1>Privacy Policy</h1>),
       route("/terms", () => <h1>Terms of Service</h1>),
     ]),
-    prefix("/applications", [index([isAuthenticated, List])]),
+    prefix("/applications", [
+      index([isAuthenticated, List]),
+      route("/:id", [isAuthenticated, () => <h1>Application</h1>]),
+    ]),
   ]),
 ]);
