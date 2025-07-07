@@ -50,3 +50,20 @@ export const createApplication = async (formData: FormData) => {
     return { success: false, error: error as Error };
   }
 };
+
+export const createContact = async (formData: FormData) => {
+  try {
+    await db.contact.create({
+      data: {
+        firstName: formData.get("firstName") as string,
+        lastName: formData.get("lastName") as string,
+        email: formData.get("email") as string,
+        role: formData.get("role") as string,
+      },
+    });
+    return { success: true, error: null };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: error as Error };
+  }
+};

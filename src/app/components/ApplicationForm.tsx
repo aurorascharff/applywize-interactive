@@ -11,12 +11,24 @@ import {
   SelectValue,
 } from "./ui/select";
 import { createApplication } from "../pages/applications/functions";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/app/components/ui/sheet";
+import { Plus } from "lucide-react";
+import ContactForm from "./ContactForm";
+import { useState } from "react";
 
 export default function ApplicationForm({
   statuses,
 }: {
   statuses: ApplicationStatus[];
 }) {
+  const [isContactSheetOpen, setIsContactSheetOpen] = useState(false);
   const handleSubmit = async (formData: FormData) => {
     const result = await createApplication(formData);
     if (result.success) {
@@ -99,6 +111,24 @@ export default function ApplicationForm({
               Invite your team members to collaborate.
             </p>
             <div>Contact Card</div>
+            <Sheet
+              open={isContactSheetOpen}
+              onOpenChange={setIsContactSheetOpen}
+            >
+              <SheetTrigger className="flex items-center gap-2 font-poppins text-sm font-bold bg-secondary py-3 px-6 rounded-md cursor-pointer">
+                <Plus className="size-4" />
+                Add a Contact
+              </SheetTrigger>
+              <SheetContent className="pt-[100px] px-12">
+                <SheetHeader>
+                  <SheetTitle>Add a Contact</SheetTitle>
+                  <SheetDescription>
+                    Add a Contact to this application.
+                  </SheetDescription>
+                  <ContactForm callback={() => setIsContactSheetOpen(false)} />
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
