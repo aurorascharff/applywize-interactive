@@ -70,11 +70,8 @@ export function Login() {
         )}
         <p>
           By clicking continue, you agree to our{" "}
-          <p>
-            By clicking continue, you agree to our{" "}
-            <a href={link("/legal/terms")}>Terms of Service</a> and{" "}
-            <a href={link("/legal/privacy")}>Privacy Policy</a>.
-          </p>
+          <a href={link("/legal/terms")}>Terms of Service</a> and{" "}
+          <a href={link("/legal/privacy")}>Privacy Policy</a>.
         </p>
       </div>
     </AuthLayout>
