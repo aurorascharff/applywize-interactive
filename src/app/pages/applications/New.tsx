@@ -11,7 +11,6 @@ import ApplicationForm from "@/app/components/ApplicationForm";
 import { db } from "@/db";
 import { RequestInfo } from "rwsdk/worker";
 import { link } from "@/app/shared/links";
-import Link from "@/app/components/Link";
 import { Suspense } from "react";
 import Skeleton from "@/app/components/Skeleton";
 

@@ -1,11 +1,13 @@
 import ApplicationsTable from "@/app/components/ApplicationsTable";
 import Link from "@/app/components/Link";
 import Skeleton from "@/app/components/Skeleton";
+import SortButton from "@/app/components/ArchiveButton";
 import { Button } from "@/app/components/ui/button";
 import { link } from "@/app/shared/links";
 import { db, Prisma } from "@/db";
 import { Archive, Plus } from "lucide-react";
 import { Suspense } from "react";
+import ArchiveButton from "@/app/components/ArchiveButton";
 
 export type ApplicationWithRelations = Prisma.ApplicationGetPayload<{
   include: {
@@ -38,21 +40,8 @@ export default async function List({ request }: { request: Request }) {
       <Suspense fallback={<Skeleton />}>
         <ListContent status={status || ""} />
       </Suspense>
-
       <div className="flex justify-between items-center mb-10">
-        <Button asChild variant="secondary">
-          {status === "archived" ? (
-            <a href={`${link("/applications")}`}>
-              <Archive />
-              Active
-            </a>
-          ) : (
-            <a href={`${link("/applications")}?status=archived`}>
-              <Archive />
-              Archive
-            </a>
-          )}
-        </Button>
+        <ArchiveButton status={status || ""} />
         <Button asChild>
           <a href={link("/applications/new")}>
             <Plus />
