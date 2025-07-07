@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/app/components/ui/dialog";
 import { Check, Trash } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button, SubmitButton } from "./ui/button";
 import { toast } from "sonner";
 import { deleteApplication } from "@/app/pages/applications/functions";
 import { link } from "../shared/links";
@@ -56,14 +56,14 @@ export default function DeleteApplicationButton({
             Nevermind
           </Button>
           <form action={handleDelete}>
-            <Button
+            <SubmitButton
               variant="destructive"
               role="submit"
               className="fill-current"
             >
               <Check />
               Yes, Delete It
-            </Button>
+            </SubmitButton>
           </form>
         </DialogFooter>
       </DialogContent>

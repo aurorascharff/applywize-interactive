@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { Button } from "./ui/button";
+import { SubmitButton } from "./ui/button";
 import { createContact } from "../pages/applications/functions";
 import { toast } from "sonner";
 
@@ -40,10 +40,10 @@ export default function ContactForm({
         <input type="email" id="email" name="email" required />
       </div>
       <div className="field">
-        <Button>
+        <SubmitButton>
           <Check />
           Create a Contact
-        </Button>
+        </SubmitButton>
       </div>
     </form>
   );

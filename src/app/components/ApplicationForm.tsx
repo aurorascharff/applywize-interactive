@@ -1,7 +1,7 @@
 "use client";
 
 import { ApplicationStatus, Contact } from "@generated/prisma";
-import { Button } from "./ui/button";
+import { Button, SubmitButton } from "./ui/button";
 import { DatePicker } from "./ui/datepicker";
 import {
   Select,
@@ -87,7 +87,7 @@ export default function ApplicationForm({
               <input type="text" id="url" name="url" />
             </div>
             <div className="field">
-              <Button role="submit">Create</Button>
+              <SubmitButton role="submit">Create</SubmitButton>
             </div>
           </div>
         </div>

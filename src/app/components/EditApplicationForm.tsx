@@ -1,7 +1,7 @@
 "use client";
 
 import { Application, ApplicationStatus, Contact } from "@generated/prisma";
-import { Button } from "./ui/button";
+import { Button, SubmitButton } from "./ui/button";
 import { DatePicker } from "./ui/datepicker";
 import {
   Select,
@@ -123,7 +123,7 @@ export default function EditApplicationForm({
                 name="id"
                 defaultValue={application?.id ?? ""}
               />
-              <Button role="submit">Update</Button>
+              <SubmitButton role="submit">Update</SubmitButton>
               <Button variant="secondary" asChild>
                 <Link
                   href={link("/applications/:id", {
