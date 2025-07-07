@@ -1,9 +1,11 @@
 import ApplicationsTable from "@/app/components/ApplicationsTable";
 import Link from "@/app/components/Link";
+import Skeleton from "@/app/components/Skeleton";
 import { Button } from "@/app/components/ui/button";
 import { link } from "@/app/shared/links";
 import { db, Prisma } from "@/db";
 import { Archive, Plus } from "lucide-react";
+import { Suspense } from "react";
 
 export type ApplicationWithRelations = Prisma.ApplicationGetPayload<{
   include: {
@@ -17,10 +19,53 @@ export type ApplicationWithRelations = Prisma.ApplicationGetPayload<{
 }>;
 
 export default async function List({ request }: { request: Request }) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   const url = new URL(request.url);
   const status = url.searchParams.get("status");
+
+  return (
+    <div className="px-page-side">
+      <div className="flex justify-between items-center mb-5">
+        <h1 className="page-title">All Applications</h1>
+        <div>
+          <Button asChild>
+            <a href={link("/applications/new")}>
+              <Plus />
+              New Application
+            </a>
+          </Button>
+        </div>
+      </div>
+      <Suspense fallback={<Skeleton />}>
+        <ListContent status={status || ""} />
+      </Suspense>
+
+      <div className="flex justify-between items-center mb-10">
+        <Button asChild variant="secondary">
+          {status === "archived" ? (
+            <a href={`${link("/applications")}`}>
+              <Archive />
+              Active
+            </a>
+          ) : (
+            <a href={`${link("/applications")}?status=archived`}>
+              <Archive />
+              Archive
+            </a>
+          )}
+        </Button>
+        <Button asChild>
+          <a href={link("/applications/new")}>
+            <Plus />
+            New Application
+          </a>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+async function ListContent({ status }: { status: string }) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const applications = await db.application.findMany({
     include: {
@@ -37,48 +82,14 @@ export default async function List({ request }: { request: Request }) {
   });
 
   return (
-    <div className="px-page-side">
-      <div className="flex justify-between items-center mb-5">
-        <h1 className="page-title">All Applications</h1>
-        <div>
-          <Button asChild>
-            <Link href={link("/applications/new")}>
-              <Plus />
-              New Application
-            </Link>
-          </Button>
+    <div className="mb-8">
+      {applications.length > 0 ? (
+        <ApplicationsTable applications={applications} />
+      ) : (
+        <div className="text-center text-sm text-muted-foreground">
+          No applications found
         </div>
-      </div>
-      <div className="mb-8">
-        {applications.length > 0 ? (
-          <ApplicationsTable applications={applications} />
-        ) : (
-          <div className="text-center text-sm text-muted-foreground">
-            No applications found
-          </div>
-        )}
-      </div>
-      <div className="flex justify-between items-center mb-10">
-        <Button asChild variant="secondary">
-          {status === "archived" ? (
-            <Link href={`${link("/applications")}`}>
-              <Archive />
-              Active
-            </Link>
-          ) : (
-            <Link href={`${link("/applications")}?status=archived`}>
-              <Archive />
-              Archive
-            </Link>
-          )}
-        </Button>
-        <Button asChild>
-          <Link href={link("/applications/new")}>
-            <Plus />
-            New Application
-          </Link>
-        </Button>
-      </div>
+      )}
     </div>
   );
 }

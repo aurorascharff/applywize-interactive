@@ -21,17 +21,22 @@ import {
 } from "@/app/components/ui/sheet";
 import { Plus } from "lucide-react";
 import ContactForm from "./ContactForm";
-import { useState } from "react";
+import { use, useState } from "react";
 import ContactCard from "./ContactCard";
 import { link } from "../shared/links";
 
 export default function ApplicationForm({
-  statuses,
-  contacts,
+  statusesPromise,
+  contactsPromise,
+  promise,
 }: {
-  statuses: ApplicationStatus[];
-  contacts: Contact[];
+  statusesPromise: Promise<ApplicationStatus[]>;
+  contactsPromise: Promise<Contact[]>;
+  promise: Promise<unknown>;
 }) {
+  const statuses = use(statusesPromise);
+  const contacts = use(contactsPromise);
+  use(promise);
   const [isContactSheetOpen, setIsContactSheetOpen] = useState(false);
 
   const submitAction = async (formData: FormData) => {

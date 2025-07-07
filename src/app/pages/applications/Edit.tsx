@@ -11,9 +11,18 @@ import { db } from "@/db";
 import { RequestInfo } from "rwsdk/worker";
 import { link } from "@/app/shared/links";
 import EditApplicationForm from "@/app/components/EditApplicationForm";
-import Link from "@/app/components/Link";
+import { Suspense } from "react";
+import Skeleton from "@/app/components/Skeleton";
 
-export default async function New({ params }: RequestInfo) {
+export default function Edit(props: Parameters<typeof EditContent>[0]) {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <EditContent {...props} />
+    </Suspense>
+  );
+}
+
+export async function EditContent({ params }: RequestInfo) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const application = await db.application.findUnique({
@@ -41,14 +50,12 @@ export default async function New({ params }: RequestInfo) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link
-                  href={link("/applications/:id", {
-                    id: application?.id ?? "",
-                  })}
-                >
-                  {application?.jobTitle} at {application?.company?.name}
-                </Link>
+              <BreadcrumbLink
+                href={link("/applications/:id", {
+                  id: application?.id ?? "",
+                })}
+              >
+                {application?.jobTitle} at {application?.company?.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

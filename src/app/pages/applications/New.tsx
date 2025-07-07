@@ -12,12 +12,13 @@ import { db } from "@/db";
 import { RequestInfo } from "rwsdk/worker";
 import { link } from "@/app/shared/links";
 import Link from "@/app/components/Link";
+import { Suspense } from "react";
+import Skeleton from "@/app/components/Skeleton";
 
 export default async function New({ ctx }: RequestInfo) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  const statuses = await db.applicationStatus.findMany();
-  const contacts = await db.contact.findMany({
+  const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+  const statuses = db.applicationStatus.findMany();
+  const contacts = db.contact.findMany({
     where: {
       companyId: null,
       userId: ctx.user?.id || "",
@@ -30,8 +31,8 @@ export default async function New({ ctx }: RequestInfo) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={link("/applications")}>Applications</Link>
+              <BreadcrumbLink href={link("/applications")}>
+                Applications
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -45,7 +46,13 @@ export default async function New({ ctx }: RequestInfo) {
         <h1 className="page-title">New Application</h1>
         <p className="page-description">Create a new application</p>
       </div>
-      <ApplicationForm contacts={contacts} statuses={statuses} />
+      <Suspense fallback={<Skeleton />}>
+        <ApplicationForm
+          promise={promise}
+          statusesPromise={statuses}
+          contactsPromise={contacts}
+        />
+      </Suspense>
     </>
   );
 }

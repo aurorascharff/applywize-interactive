@@ -125,13 +125,13 @@ export default function EditApplicationForm({
               />
               <SubmitButton role="submit">Update</SubmitButton>
               <Button variant="secondary" asChild>
-                <Link
+                <a
                   href={link("/applications/:id", {
                     id: application?.id ?? "",
                   })}
                 >
                   Cancel
-                </Link>
+                </a>
               </Button>
             </div>
           </div>

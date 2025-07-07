@@ -42,12 +42,12 @@ export function Signup() {
     <AuthLayout>
       <div className="auth-form max-w-[400px] w-full mx-auto px-10">
         <div className="absolute top-0 right-0 p-10">
-          <Link
+          <a
             href={link("/user/login")}
             className="font-display font-bold text-black text-sm underline underline-offset-8 hover:decoration-primary"
           >
             Login
-          </Link>
+          </a>
         </div>
         <h1 className="page-title text-center">Create an Account</h1>
         <p className="py-6">Enter a username to setup an account.</p>
@@ -72,8 +72,8 @@ export function Signup() {
         </Button>
         <p>
           By clicking continue, you agree to our{" "}
-          <Link href={link("/legal/terms")}>Terms of Service</Link> and{" "}
-          <Link href={link("/legal/privacy")}>Privacy Policy</Link>.
+          <a href={link("/legal/terms")}>Terms of Service</a> and{" "}
+          <a href={link("/legal/privacy")}>Privacy Policy</a>.
         </p>
       </div>
     </AuthLayout>
