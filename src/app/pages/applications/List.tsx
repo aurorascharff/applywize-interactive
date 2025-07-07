@@ -27,12 +27,7 @@ export default async function List({ request }: { request: Request }) {
       <div className="flex justify-between items-center mb-5">
         <h1 className="page-title">All Applications</h1>
         <div>
-          <Button asChild>
-            <a href={link("/applications/new")}>
-              <Plus />
-              New Application
-            </a>
-          </Button>
+          <NewApplicationButton />
         </div>
       </div>
       <Suspense
@@ -46,12 +41,7 @@ export default async function List({ request }: { request: Request }) {
       </Suspense>
       <div className="flex justify-between items-center mb-10">
         <ArchiveButton status={status || ""} />
-        <Button asChild>
-          <a href={link("/applications/new")}>
-            <Plus />
-            New Application
-          </a>
-        </Button>
+        <NewApplicationButton />
       </div>
     </div>
   );
@@ -86,3 +76,14 @@ async function ListContent({ status }: { status: string }) {
     </div>
   );
 }
+
+const NewApplicationButton = () => {
+  return (
+    <Button asChild>
+      <a href={link("/applications/new")}>
+        <Plus />
+        New Application
+      </a>
+    </Button>
+  );
+};
