@@ -1,10 +1,40 @@
+"use client";
+
 import { Contact } from "@generated/prisma";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Mail } from "lucide-react";
+import { Mail, X } from "lucide-react";
+import { toast } from "sonner";
+import { deleteContact } from "../pages/applications/functions";
 
-export default function ContactCard({ contact }: { contact: Contact }) {
+export default function ContactCard({
+  contact,
+  isEditable = true,
+}: {
+  contact: Contact;
+  isEditable?: boolean;
+}) {
+  const handleDelete = async () => {
+    const result = await deleteContact(contact.id);
+    if (result.error) {
+      toast.error("Yikes! Couldn't delete.");
+    } else {
+      toast.success("Contact deleted");
+    }
+  };
+
   return (
-    <div className="flex items-center gap-4 mb-6">
+    <div className="relative flex items-center gap-4 mb-6 group/card">
+      {isEditable && (
+        <div className="absolute top-2 -left-[37px] pr-5">
+          <button
+            formAction={handleDelete}
+            role="button"
+            className="hidden group-hover/card:block text-white fill-current rounded-full bg-destructive p-1 hover:bg-black cursor-pointer"
+          >
+            <X className="size-4 " />
+          </button>
+        </div>
+      )}
       <div>
         <Avatar className="size-10">
           <AvatarFallback>{contact.firstName.charAt(0)}</AvatarFallback>

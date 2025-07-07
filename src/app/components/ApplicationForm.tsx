@@ -45,7 +45,7 @@ export default function ApplicationForm({
 
   return (
     <form action={handleSubmit}>
-      <div className="grid grid-cols-2 gap-[200px] px-page-side mb-[75px]">
+      <div className="mx-page-side two-column-grid">
         <div>
           <div>
             <h2>Company Information</h2>

@@ -77,3 +77,31 @@ export const createContact = async (formData: FormData) => {
     return { success: false, error: error as Error };
   }
 };
+
+export const deleteContact = async (contactId: string) => {
+  try {
+    await db.contact.delete({
+      where: {
+        id: contactId,
+      },
+    });
+    return { success: true, error: null };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: error as Error };
+  }
+};
+
+export const deleteApplication = async (applicationId: string) => {
+  try {
+    await db.application.delete({
+      where: {
+        id: applicationId,
+      },
+    });
+    return { success: true, error: null };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: error as Error };
+  }
+};
