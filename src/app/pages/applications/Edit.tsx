@@ -28,6 +28,10 @@ export default async function New({ params, ctx }: RequestInfo) {
   });
   const statuses = await db.applicationStatus.findMany();
 
+  if (!application) {
+    throw new Error("Application not found");
+  }
+
   return (
     <InteriorLayout>
       <div className="breadcrumbs">
