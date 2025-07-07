@@ -1,23 +1,23 @@
-import ContactCard from "@/app/components/ContactCard";
-import DeleteApplicationButton from "@/app/components/DeleteApplicationButton";
-import { Badge, badgeVariants } from "@/app/components/ui/badge";
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
+  BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/app/components/ui/breadcrumb";
-import { Button } from "@/app/components/ui/button";
-import InteriorLayout from "@/app/layouts/InteriorLayout";
-import { db } from "@/db";
-import { VariantProps } from "class-variance-authority";
-import { DollarSign, Edit, Eye, Trash } from "lucide-react";
-import React from "react";
 import { RequestInfo } from "rwsdk/worker";
+import { db } from "@/db";
+import { Button } from "@/app/components/ui/button";
+import { Badge, badgeVariants } from "@/app/components/ui/badge";
+import { VariantProps } from "class-variance-authority";
+import { link } from "@/app/shared/links";
+import InteriorLayout from "@/app/layouts/InteriorLayout";
+import { DollarSign, Edit, Eye, Pencil } from "lucide-react";
+import DeleteApplicationButton from "@/app/components/DeleteApplicationButton";
+import ContactCard from "@/app/components/ContactCard";
 
-export default async function Details({ params }: RequestInfo) {
+const Details = async ({ params }: RequestInfo) => {
   const application = await db.application.findUnique({
     where: {
       id: params.id,
@@ -84,8 +84,14 @@ export default async function Details({ params }: RequestInfo) {
         <div className="two-column-grid">
           <div className="mb-12">{application?.jobDescription}</div>
           <div className="flex items-center gap-5">
-            <Button variant="secondary">
-              <Edit /> Edit
+            <Button variant="secondary" asChild>
+              <a
+                href={link("/applications/:id/edit", {
+                  id: application?.id || "",
+                })}
+              >
+                <Pencil /> Edit
+              </a>
             </Button>
             <DeleteApplicationButton applicationId={application?.id || ""} />
           </div>
@@ -102,24 +108,26 @@ export default async function Details({ params }: RequestInfo) {
                 </div>
               </div>
             </div>
+            <div className="box">
+              <h3>Contacts</h3>
+              <p className="input-description">
+                Invite your team members to collaborate.
+              </p>
+              {application?.company?.contacts && (
+                <ul>
+                  {application?.company?.contacts.map((contact) => (
+                    <li key={contact.id}>
+                      <ContactCard isEditable={false} contact={contact} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </aside>
-        </div>
-        <div className="box">
-          <h3>Contacts</h3>
-          <p className="input-description">
-            Invite your team members to collaborate.
-          </p>
-          {application?.company?.contacts && (
-            <ul>
-              {application?.company?.contacts.map((contact) => (
-                <li key={contact.id}>
-                  <ContactCard isEditable={false} contact={contact} />
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
     </InteriorLayout>
   );
-}
+};
+
+export default Details;

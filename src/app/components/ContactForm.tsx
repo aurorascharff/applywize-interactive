@@ -3,8 +3,15 @@ import { Button } from "./ui/button";
 import { createContact } from "../pages/applications/functions";
 import { toast } from "sonner";
 
-export default function ContactForm({ callback }: { callback: () => void }) {
+export default function ContactForm({
+  callback,
+  companyId = "",
+}: {
+  callback: () => void;
+  companyId?: string;
+}) {
   const handleSubmit = async (formData: FormData) => {
+    formData.append("companyId", companyId);
     const result = await createContact(formData);
     if (result.success) {
       toast.success("Contact created successfully");
