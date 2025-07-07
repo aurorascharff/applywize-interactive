@@ -81,18 +81,20 @@ const Details = async ({ params }: RequestInfo) => {
           </div>
         </header>
         <div className="two-column-grid">
-          <div className="mb-12">{application?.jobDescription}</div>
-          <div className="flex items-center gap-5">
-            <Button variant="secondary" asChild>
-              <a
-                href={link("/applications/:id/edit", {
-                  id: application?.id || "",
-                })}
-              >
-                <Pencil /> Edit
-              </a>
-            </Button>
-            <DeleteApplicationButton applicationId={application?.id || ""} />
+          <div>
+            <div className="mb-12">{application?.jobDescription}</div>
+            <div className="flex items-center gap-5">
+              <Button variant="secondary" asChild>
+                <a
+                  href={link("/applications/:id/edit", {
+                    id: application?.id || "",
+                  })}
+                >
+                  <Pencil /> Edit
+                </a>
+              </Button>
+              <DeleteApplicationButton applicationId={application?.id || ""} />
+            </div>
           </div>
           <aside>
             <div className="box">
@@ -116,7 +118,7 @@ const Details = async ({ params }: RequestInfo) => {
                 <ul>
                   {application?.company?.contacts.map((contact) => (
                     <li key={contact.id}>
-                      <ContactCard isEditable={false} contact={contact} />
+                      <ContactCard contact={contact} isEditable={false} />
                     </li>
                   ))}
                 </ul>
