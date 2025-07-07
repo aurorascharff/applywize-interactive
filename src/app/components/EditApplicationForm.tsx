@@ -36,7 +36,7 @@ export default function EditApplicationForm({
 }) {
   const [isContactSheetOpen, setIsContactSheetOpen] = useState(false);
 
-  const handleSubmit = async (formData: FormData) => {
+  const submitAction = async (formData: FormData) => {
     const result = await updateApplication(formData);
     if (result.success) {
       window.location.href = link(`/applications`);
@@ -46,7 +46,7 @@ export default function EditApplicationForm({
   };
 
   return (
-    <form action={handleSubmit}>
+    <form action={submitAction}>
       <div className="mx-page-side two-column-grid">
         <div>
           <div>
@@ -192,7 +192,7 @@ export default function EditApplicationForm({
                   </SheetDescription>
                   <ContactForm
                     companyId={application?.company?.id ?? ""}
-                    callback={() => setIsContactSheetOpen(false)}
+                    callbackAction={() => setIsContactSheetOpen(false)}
                   />
                 </SheetHeader>
               </SheetContent>

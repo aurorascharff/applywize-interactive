@@ -34,7 +34,7 @@ export default function ApplicationForm({
 }) {
   const [isContactSheetOpen, setIsContactSheetOpen] = useState(false);
 
-  const handleSubmit = async (formData: FormData) => {
+  const submitAction = async (formData: FormData) => {
     formData.append("contacts", JSON.stringify(contacts));
     const result = await createApplication(formData);
     if (result.success) {
@@ -45,7 +45,7 @@ export default function ApplicationForm({
   };
 
   return (
-    <form action={handleSubmit}>
+    <form action={submitAction}>
       <div className="mx-page-side two-column-grid">
         <div>
           <div>
@@ -139,7 +139,9 @@ export default function ApplicationForm({
                   <SheetDescription>
                     Add a Contact to this application.
                   </SheetDescription>
-                  <ContactForm callback={() => setIsContactSheetOpen(false)} />
+                  <ContactForm
+                    callbackAction={() => setIsContactSheetOpen(false)}
+                  />
                 </SheetHeader>
               </SheetContent>
             </Sheet>

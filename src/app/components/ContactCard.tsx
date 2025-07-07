@@ -2,9 +2,10 @@
 
 import { Contact } from "@generated/prisma";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Mail, X } from "lucide-react";
+import { LoaderCircle, Mail, X } from "lucide-react";
 import { toast } from "sonner";
 import { deleteContact } from "../pages/applications/functions";
+import { useTransition } from "react";
 
 export default function ContactCard({
   contact,
@@ -13,13 +14,17 @@ export default function ContactCard({
   contact: Contact;
   isEditable?: boolean;
 }) {
-  const handleDelete = async () => {
-    const result = await deleteContact(contact.id);
-    if (result.error) {
-      toast.error("Yikes! Couldn't delete.");
-    } else {
-      toast.success("Contact deleted");
-    }
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = () => {
+    startTransition(async () => {
+      const result = await deleteContact(contact.id);
+      if (result.error) {
+        toast.error("Yikes! Couldn't delete.");
+      } else {
+        toast.success("Contact deleted");
+      }
+    });
   };
 
   return (
@@ -27,11 +32,18 @@ export default function ContactCard({
       {isEditable && (
         <div className="absolute top-2 -left-[37px] pr-5">
           <button
-            formAction={handleDelete}
+            onClick={(e) => {
+              e.preventDefault();
+              handleDelete();
+            }}
             role="button"
             className="hidden group-hover/card:block text-white fill-current rounded-full bg-destructive p-1 hover:bg-black cursor-pointer"
           >
-            <X className="size-4 " />
+            {isPending ? (
+              <LoaderCircle className="animate-spin size-4 " />
+            ) : (
+              <X className="size-4 " />
+            )}
           </button>
         </div>
       )}
