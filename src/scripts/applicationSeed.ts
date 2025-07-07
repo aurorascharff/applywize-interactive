@@ -13,7 +13,7 @@ export default defineScript(async ({ env }) => {
         jobDescription: "Software Engineer",
         postingUrl: "https://redwoodjs.com",
         dateApplied: new Date(),
-        user: { connect: { id: "f7e93d37-ef21-4cba-9334-5c63e4fff658" } },
+        user: { connect: { id: "8f8ffbe6-87ff-408a-a413-ba798afbdc60" } },
         status: {
           connect: {
             id: 1,
@@ -24,6 +24,7 @@ export default defineScript(async ({ env }) => {
             name: "RedwoodSDK",
             contacts: {
               create: {
+                userId: "8f8ffbe6-87ff-408a-a413-ba798afbdc60",
                 firstName: "John",
                 lastName: "Doe",
                 email: "john.doe@example.com",

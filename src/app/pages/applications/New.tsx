@@ -9,9 +9,16 @@ import {
 } from "@/app/components/ui/breadcrumb";
 import ApplicationForm from "@/app/components/ApplicationForm";
 import { db } from "@/db";
+import { RequestInfo } from "rwsdk/worker";
 
-export default async function New() {
+export default async function New({ ctx }: RequestInfo) {
   const statuses = await db.applicationStatus.findMany();
+  const contacts = await db.contact.findMany({
+    where: {
+      companyId: null,
+      userId: ctx.user?.id || "",
+    },
+  });
 
   return (
     <InteriorLayout>
@@ -32,7 +39,7 @@ export default async function New() {
         <h1 className="page-title">New Application</h1>
         <p className="page-description">Create a new application</p>
       </div>
-      <ApplicationForm statuses={statuses} />
+      <ApplicationForm contacts={contacts} statuses={statuses} />
     </InteriorLayout>
   );
 }

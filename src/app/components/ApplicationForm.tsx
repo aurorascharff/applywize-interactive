@@ -1,6 +1,6 @@
 "use client";
 
-import { ApplicationStatus } from "@generated/prisma";
+import { ApplicationStatus, Contact } from "@generated/prisma";
 import { Button } from "./ui/button";
 import { DatePicker } from "./ui/datepicker";
 import {
@@ -22,14 +22,19 @@ import {
 import { Plus } from "lucide-react";
 import ContactForm from "./ContactForm";
 import { useState } from "react";
+import ContactCard from "./ContactCard";
 
 export default function ApplicationForm({
   statuses,
+  contacts,
 }: {
   statuses: ApplicationStatus[];
+  contacts: Contact[];
 }) {
   const [isContactSheetOpen, setIsContactSheetOpen] = useState(false);
+
   const handleSubmit = async (formData: FormData) => {
+    formData.append("contacts", JSON.stringify(contacts));
     const result = await createApplication(formData);
     if (result.success) {
       window.location.href = `/applications`;
@@ -110,7 +115,15 @@ export default function ApplicationForm({
             <p className="input-description">
               Invite your team members to collaborate.
             </p>
-            <div>Contact Card</div>
+            {contacts && (
+              <ul>
+                {contacts.map((contact) => (
+                  <li key={contact.id}>
+                    <ContactCard contact={contact} />
+                  </li>
+                ))}
+              </ul>
+            )}
             <Sheet
               open={isContactSheetOpen}
               onOpenChange={setIsContactSheetOpen}

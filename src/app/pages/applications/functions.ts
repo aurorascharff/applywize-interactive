@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/db";
+import { Contact, db } from "@/db";
 import { requestInfo } from "rwsdk/worker";
 
 export const createApplication = async (formData: FormData) => {
@@ -9,6 +9,10 @@ export const createApplication = async (formData: FormData) => {
     if (!ctx.user) {
       throw new Error("User not found");
     }
+
+    const contacts = JSON.parse(
+      formData.get("contacts") as string
+    ) as Contact[];
 
     await db.application.create({
       data: {
@@ -26,12 +30,7 @@ export const createApplication = async (formData: FormData) => {
           create: {
             name: formData.get("company") as string,
             contacts: {
-              create: {
-                firstName: "John",
-                lastName: "Doe",
-                email: "john.doe@example.com",
-                role: "Hiring Manager",
-              },
+              connect: contacts,
             },
           },
         },
@@ -53,12 +52,23 @@ export const createApplication = async (formData: FormData) => {
 
 export const createContact = async (formData: FormData) => {
   try {
+    const { ctx } = requestInfo;
+
+    if (!ctx.user) {
+      throw new Error("User not found");
+    }
+
     await db.contact.create({
       data: {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         email: formData.get("email") as string,
         role: formData.get("role") as string,
+        user: {
+          connect: {
+            id: ctx.user?.id || "",
+          },
+        },
       },
     });
     return { success: true, error: null };
