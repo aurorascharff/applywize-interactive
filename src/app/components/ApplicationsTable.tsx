@@ -11,17 +11,8 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Prisma } from "@generated/prisma";
 import { VariantProps } from "class-variance-authority";
 import { link } from "../shared/links";
-
-export type ApplicationWithRelations = Prisma.ApplicationGetPayload<{
-  include: {
-    status: true;
-    company: {
-      include: {
-        contacts: true;
-      };
-    };
-  };
-}>;
+import { ApplicationWithRelations } from "../pages/applications/List";
+import { Eye, View, ViewIcon } from "lucide-react";
 
 export default function ApplicationsTable({
   applications,
@@ -82,7 +73,7 @@ export default function ApplicationsTable({
             </TableCell>
             <TableCell>
               <a href={link("/applications/:id", { id: application.id })}>
-                View
+                <Eye />
               </a>
             </TableCell>
           </TableRow>

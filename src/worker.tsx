@@ -64,6 +64,7 @@ export default defineApp([
     ]),
     prefix("/applications", [
       index([isAuthenticated, List]),
+      route("/new", [isAuthenticated, () => <h1>New Application</h1>]),
       route("/:id", [isAuthenticated, () => <h1>Application</h1>]),
     ]),
   ]),
