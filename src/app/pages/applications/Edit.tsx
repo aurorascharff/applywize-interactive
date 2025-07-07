@@ -33,7 +33,7 @@ export default async function New({ params, ctx }: RequestInfo) {
   }
 
   return (
-    <InteriorLayout>
+    <>
       <div className="breadcrumbs">
         <Breadcrumb>
           <BreadcrumbList>
@@ -58,6 +58,6 @@ export default async function New({ params, ctx }: RequestInfo) {
         </p>
       </div>
       <EditApplicationForm application={application} statuses={statuses} />
-    </InteriorLayout>
+    </>
   );
 }

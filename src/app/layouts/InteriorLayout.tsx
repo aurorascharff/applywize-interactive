@@ -1,11 +1,8 @@
 import Header from "../components/Header";
 import { Toaster } from "../components/ui/sonner";
+import type { LayoutProps } from "rwsdk/router";
 
-export default function InteriorLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function InteriorLayout({ children }: LayoutProps) {
   return (
     <div className="page-wrapper">
       <main className="page bg-white">

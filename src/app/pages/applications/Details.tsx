@@ -12,8 +12,7 @@ import { Button } from "@/app/components/ui/button";
 import { Badge, badgeVariants } from "@/app/components/ui/badge";
 import { VariantProps } from "class-variance-authority";
 import { link } from "@/app/shared/links";
-import InteriorLayout from "@/app/layouts/InteriorLayout";
-import { DollarSign, Edit, Eye, Pencil } from "lucide-react";
+import { DollarSign, Eye, Pencil } from "lucide-react";
 import DeleteApplicationButton from "@/app/components/DeleteApplicationButton";
 import ContactCard from "@/app/components/ContactCard";
 
@@ -33,7 +32,7 @@ const Details = async ({ params }: RequestInfo) => {
   });
 
   return (
-    <InteriorLayout>
+    <>
       <div className="breadcrumbs">
         <Breadcrumb>
           <BreadcrumbList>
@@ -126,7 +125,7 @@ const Details = async ({ params }: RequestInfo) => {
           </aside>
         </div>
       </div>
-    </InteriorLayout>
+    </>
   );
 };
 

@@ -21,7 +21,7 @@ export default async function New({ ctx }: RequestInfo) {
   });
 
   return (
-    <InteriorLayout>
+    <>
       <div className="breadcrumbs">
         <Breadcrumb>
           <BreadcrumbList>
@@ -40,6 +40,6 @@ export default async function New({ ctx }: RequestInfo) {
         <p className="page-description">Create a new application</p>
       </div>
       <ApplicationForm contacts={contacts} statuses={statuses} />
-    </InteriorLayout>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import { defineApp, ErrorResponse } from "rwsdk/worker";
-import { route, render, prefix, index } from "rwsdk/router";
+import { route, render, prefix, index, layout } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
@@ -12,6 +12,7 @@ import List from "./app/pages/applications/List";
 import New from "./app/pages/applications/New";
 import Details from "./app/pages/applications/Details";
 import Edit from "./app/pages/applications/Edit";
+import InteriorLayout from "./app/layouts/InteriorLayout";
 export { SessionDurableObject } from "./session/durableObject";
 
 export type AppContext = {
@@ -65,11 +66,14 @@ export default defineApp([
       route("/privacy", () => <h1>Privacy Policy</h1>),
       route("/terms", () => <h1>Terms of Service</h1>),
     ]),
-    prefix("/applications", [
-      index([isAuthenticated, List]),
-      route("/new", [isAuthenticated, New]),
-      route("/:id", [isAuthenticated, Details]),
-      route("/:id/edit", [isAuthenticated, Edit]),
-    ]),
+    prefix(
+      "/applications",
+      layout(InteriorLayout, [
+        index([isAuthenticated, List]),
+        route("/new", [isAuthenticated, New]),
+        route("/:id", [isAuthenticated, Details]),
+        route("/:id/edit", [isAuthenticated, Edit]),
+      ])
+    ),
   ]),
 ]);
