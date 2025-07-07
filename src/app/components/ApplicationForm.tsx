@@ -10,14 +10,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { createApplication } from "../pages/applications/functions";
 
 export default function ApplicationForm({
   statuses,
 }: {
   statuses: ApplicationStatus[];
 }) {
+  const handleSubmit = async (formData: FormData) => {
+    const result = await createApplication(formData);
+    if (result.success) {
+      window.location.href = `/applications`;
+    } else {
+      console.error(result.error);
+    }
+  };
+
   return (
-    <form>
+    <form action={handleSubmit}>
       <div className="grid grid-cols-2 gap-[200px] px-page-side mb-[75px]">
         <div>
           <div>
