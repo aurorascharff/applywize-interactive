@@ -1,11 +1,9 @@
 import ApplicationsTable from "@/app/components/ApplicationsTable";
-import Link from "@/app/components/Link";
 import Skeleton from "@/app/components/Skeleton";
-import SortButton from "@/app/components/ArchiveButton";
 import { Button } from "@/app/components/ui/button";
 import { link } from "@/app/shared/links";
 import { db, Prisma } from "@/db";
-import { Archive, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Suspense } from "react";
 import ArchiveButton from "@/app/components/ArchiveButton";
 
@@ -37,7 +35,13 @@ export default async function List({ request }: { request: Request }) {
           </Button>
         </div>
       </div>
-      <Suspense fallback={<Skeleton />}>
+      <Suspense
+        fallback={
+          <div className="text-center text-sm text-muted-foreground mb-8">
+            Loading applications...
+          </div>
+        }
+      >
         <ListContent status={status || ""} />
       </Suspense>
       <div className="flex justify-between items-center mb-10">

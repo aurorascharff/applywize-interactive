@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useOptimistic, useTransition } from "react";
+import { useOptimistic, useTransition } from "react";
 import { Button } from "./ui/button";
 import { Archive, Loader } from "lucide-react";
 import { link } from "../shared/links";
